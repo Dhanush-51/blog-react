@@ -7,7 +7,7 @@ const GenrePage = ({ blogs, genreImages }) => {
 
     return (
         <div className="flex-1 p-6">
-            <h2 className="text-2xl font-bold">{genre.charAt(0).toUpperCase() + genre.slice(1)} Blogs</h2>
+            <h2 className="text-2xl font-bold text-black">{genre.charAt(0).toUpperCase() + genre.slice(1)} Blogs</h2>
             {filteredBlogs.length > 0 ? (
                 <div className="grid grid-cols-3 gap-4 mt-6">
                     {filteredBlogs.map((blog, index) => (

@@ -22,7 +22,7 @@ const genreImages = {
     education: 'https://th.bing.com/th/id/OIP.wKd9PXo89gKPZMprR9FRqAHaE8?w=257&h=180&c=7&r=0&o=5&pid=1.7',
 };
 
-const genres = Object.keys(genreImages); // Extract genres from genreImages
+const genres = Object.keys(genreImages); 
 
 const App = () => {
     const [blogs, setBlogs] = useState([]);
@@ -70,15 +70,15 @@ const App = () => {
 
     return (
         <Router>
-            <div className="flex h-screen bg-black text-white">
-                <div className="w-64 bg-gray-900 p-4 flex flex-col justify-between">
+            <div className="flex h-screen bg-white ">
+                <div className="w-64 bg-gray-900 p-4 flex flex-col justify-between text-white">
                     <div>
-                        <h1 className="text-xl font-bold">tumblr</h1>
+                        <h1 className="text-2xl font-bold pl-4 pt-4">T R U E B L O G</h1>
                         <nav className="mt-6">
                             <ul>
-                                <li className="py-2"><Link to="/" className="hover:text-gray-400">Home</Link></li>
-                                <li className="py-2"><Link to="/activity" className="hover:text-gray-400">Activity</Link></li>
-                                <li className="py-2"><Link to="/messages" className="hover:text-gray-400">Messages</Link></li>
+                                <li className="py-2 pl-4 mt-2 text-xl"><Link to="/" className="hover:text-gray-400">Home</Link></li>
+                                <li className="py-2 pl-4 mt-2 text-xl"><Link to="/activity" className="hover:text-gray-400">Activity</Link></li>
+                                <li className="py-2 pl-4 mt-2 text-xl"><Link to="/messages" className="hover:text-gray-400">Messages</Link></li>
                             </ul>
                         </nav>
                     </div>
@@ -99,7 +99,7 @@ const App = () => {
                 {isPopupOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-50">
                         <div className="bg-[#BFBEC6] p-6 rounded-lg">
-                            <h2 className="text-2xl font-bold">Add a Blog</h2>
+                            <h2 className="text-2xl text-black font-bold">Add a Blog</h2>
                             <input type="text" name="title" placeholder="Title" value={newBlog.title} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
                             <input type="text" name="author" placeholder="Author" value={newBlog.author} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
                             <input type="text" name="image" placeholder="Image URL" value={newBlog.image} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
@@ -118,7 +118,7 @@ const App = () => {
                             </select>
 
                             <button onClick={handleAddBlog} className="mt-4 bg-blue-600 px-4 py-2 rounded-lg mr-5">Add Blog</button>
-                            <button onClick={handleCloseBlogPopup} className="mt-2 bg-red-600 px-4 py-2 rounded-lg">Cancel</button>
+                            <button onClick={handleCloseBlogPopup} className="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Cancel</button>
                         </div>
                     </div>
                 )}

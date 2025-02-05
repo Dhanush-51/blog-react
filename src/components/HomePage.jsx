@@ -6,7 +6,7 @@ const HomePage = ({ blogs, genreImages, onOpenBlogPopup }) => {
 
     return (
         <div className="flex-1 p-6">
-            <h2 className="text-2xl font-bold">Genres</h2>
+            <h2 className="text-2xl font-bold text-black">Genres</h2>
             <div className="grid grid-cols-3 gap-4 mt-6">
                 {genres.length > 0 ? (
                     genres.map((genre, index) => (
@@ -18,7 +18,7 @@ const HomePage = ({ blogs, genreImages, onOpenBlogPopup }) => {
                         </Link>
                     ))
                 ) : (
-                    <div className="text-gray-400">No genres available</div>
+                    <div className="text-black">No genres available</div>
                 )}
             </div>
             <button onClick={onOpenBlogPopup} className="mt-6 bg-blue-600 px-4 py-2 rounded-lg">Add Blog</button>
