@@ -129,18 +129,3 @@ const App = () => {
 
 export default App;
 
-
-// {isPopupOpen && (
-//     <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-50">
-//         <div className="bg-[#BFBEC6] p-6 rounded-lg">
-//             <h2 className="text-2xl font-bold">Add a Blog</h2>
-//             <input type="text" name="title" placeholder="Title" value={newBlog.title} onChange={handleInputChange} className="mt-2 p-2 w-full rounded" />
-//             <input type="text" name="author" placeholder="Author" value={newBlog.author} onChange={handleInputChange} className="mt-2 p-2 w-full rounded" />
-//             <input type="text" name="image" placeholder="Image URL" value={newBlog.image} onChange={handleInputChange} className="mt-2 p-2 w-full rounded" />
-//             <textarea name="content" placeholder="Content" value={newBlog.content} onChange={handleInputChange} className="mt-2 p-2 w-full rounded" rows="4"></textarea>
-//             <input type="text" name="genre" placeholder="Genre" value={newBlog.genre} onChange={handleInputChange} className="mt-2 p-2 w-full rounded" />
-//             <button onClick={handleAddBlog} className="mt-4 bg-blue-600 px-4 py-2 rounded-lg mr-5">Add Blog</button>
-//             <button onClick={handleCloseBlogPopup} className="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Cancel</button>
-//         </div>
-//     </div>
-// )}
