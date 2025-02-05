@@ -1,99 +1,97 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import GenrePage from './components/GenrePage';
+import BlogDetail from './components/BlogDetail';
 
-const BlogDetail = () => {
-    const location = useLocation();
-    const { blog } = location.state || { blog: null };
-    const [comments, setComments] = useState('');
-    const [storedComments, setStoredComments] = useState([]);
-    const [showCommentPopup, setShowCommentPopup] = useState(false);
-    const [likeCount, setLikeCount] = useState(0);
-    const [viewCount, setViewCount] = useState(0);
+const App = () => {
+    const [blogs, setBlogs] = useState([]);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [newBlog, setNewBlog] = useState({ title: '', author: '', date: '', image: '', content: '', genre: '' });
 
     useEffect(() => {
-        if (blog) {
-            // Load comments from local storage
-            const savedComments = JSON.parse(localStorage.getItem(`comments_${blog.title}`)) || [];
-            setStoredComments(savedComments);
-
-            // Increment view count
-            const currentViewCount = parseInt(localStorage.getItem(`views_${blog.title}`)) || 0;
-            setViewCount(currentViewCount + 1);
-            localStorage.setItem(`views_${blog.title}`, currentViewCount + 1);
+        const storedBlogs = JSON.parse(localStorage.getItem('blogs')) || [];
+        if (storedBlogs.length === 0) {
+            // Initialize with sample blogs if none exist
+            const sampleBlogs = [
+                { title: 'The Beauty of Art', author: 'Alice', date: '2023-01-01', image: 'https://via.placeholder.com/300', content: 'Art is a diverse range of human activities...', genre: 'art' },
+                { title: 'Top 10 Music Albums', author: 'Bob', date: '2023-01-02', image: 'https://via.placeholder.com/300', content: 'Music has the power to evoke emotions...', genre: 'music' },
+                // Add more sample blogs with lowercase genres
+            ];
+            localStorage.setItem('blogs', JSON.stringify(sampleBlogs));
+            setBlogs(sampleBlogs);
+        } else {
+            setBlogs(storedBlogs);
         }
-    }, [blog]);
+    }, []);
 
-    const handleCommentSubmit = (e) => {
-        e.preventDefault();
-        const newComment = { text: comments, date: new Date().toLocaleDateString() };
-        const updatedComments = [...storedComments, newComment];
-        setStoredComments(updatedComments);
-        localStorage.setItem(`comments_${blog.title}`, JSON.stringify(updatedComments));
-        setComments('');
-        setShowCommentPopup(false);
+    const handleOpenBlogPopup = () => {
+        setIsPopupOpen(true);
     };
 
-    const handleLike = () => {
-        setLikeCount(likeCount + 1);
+    const handleCloseBlogPopup = () => {
+        setIsPopupOpen(false);
     };
 
-    if (!blog) {
-        return <div>Blog not found!</div>;
-    }
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewBlog({ ...newBlog, [name]: value });
+    };
+
+    const handleAddBlog = () => {
+        const blogWithDate = { ...newBlog, date: new Date().toLocaleDateString(), genre: newBlog.genre.toLowerCase() }; // Normalize genre to lowercase
+        const updatedBlogs = [...blogs, blogWithDate];
+        setBlogs(updatedBlogs);
+        localStorage.setItem('blogs', JSON.stringify(updatedBlogs));
+        setNewBlog({ title: '', author: '', date: '', image: '', content: '', genre: '' });
+        handleCloseBlogPopup();
+    };
 
     return (
-        <div className="flex-1 p-6 ">
-            <div className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg">
-                <h2 className="text-3xl font-bold">{blog.title}</h2>
-                <p className="text-gray-400 mt-2">By {blog.author} | Published on {blog.date}</p>
-                <p className="text-gray-400 mt-2">Views: {viewCount}</p>
-                <img src={blog.image} className="mt-4 rounded-lg" alt="Blog" />
-                <p className="mt-4 text-gray-300">{blog.content}</p>
-
-                {/* Like and Comment Section */}
-                <div className="mt-6 flex justify-between items-center">
-                    <div className="flex items-center">
-                        <button onClick={handleLike} className="bg-blue-500 px-4 py-2 rounded-lg">Like</button>
-                        <span className="ml-2 text-gray-300">{likeCount} Likes</span>
+        <Router>
+            <div className="flex h-screen bg-black text-white">
+                <div className="w-64 bg-gray-900 p-4 flex flex-col justify-between">
+                    <div>
+                        <h1 className="text-xl font-bold">tumblr</h1>
+                        <nav className="mt-6">
+                            <ul>
+                                <li className="py-2"><Link to="/" className="hover:text-gray-400">Home</Link></li>
+                                <li className="py-2"><Link to="/activity" className="hover:text-gray-400">Activity</Link></li>
+                                <li className="py-2"><Link to="/messages" className="hover:text-gray-400">Messages</Link></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <button onClick={() => setShowCommentPopup(true)} className="bg-blue-500 px-4 py-2 rounded-lg">Comment</button>
-                </div>
-
-                {/* Comments Section */}
-                <div className="mt-6">
-                    <h3 className="text-xl font-bold">Comments</h3>
-                    <div className="mt-4">
-                        {storedComments.map((comment, index) => (
-                            <div key={index} className="border-b border-gray-600 py-2">
-                                <p className="text-gray-300">{comment.text}</p>
-                                <p className="text-gray-500 text-sm">{comment.date}</p>
-                            </div>
-                        ))}
+                    <div>
+                        <button className="w-full bg-blue-600 p-2 rounded-lg">Sign in</button>
+                        <button className="w-full bg-blue-500 p-2 rounded-lg mt-2" onClick={handleOpenBlogPopup}>Add Blog</button>
                     </div>
                 </div>
+
+                <div className="flex-1 p-6 overflow-auto">
+                    <Routes>
+                        <Route path="/" element={<HomePage onOpenBlogPopup={handleOpenBlogPopup} />} />
+                        <Route path="/genre/:genre" element={<GenrePage blogs={blogs} />} />
+                        <Route path="/blog/:id" element={<BlogDetail />} />
+                    </Routes>
+                </div>
+
+                {isPopupOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-gray-800 p-6 rounded-lg">
+                            <h2 className="text-2xl font-bold">Add a Blog</h2>
+                            <input type="text" name="title" placeholder="Title" value={newBlog.title} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
+                            <input type="text" name="author" placeholder="Author" value={newBlog.author} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
+                            <input type="text" name="image" placeholder="Image URL" value={newBlog.image} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
+                            <textarea name="content" placeholder="Content" value={newBlog.content} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" rows="4"></textarea>
+                            <input type="text" name="genre" placeholder="Genre" value={newBlog.genre} onChange={handleInputChange} className="mt-2 p-2 w-full bg-gray-700 rounded" />
+                            <button onClick={handleAddBlog} className="mt-4 bg-blue-600 px-4 py-2 rounded-lg">Add Blog</button>
+                            <button onClick={handleCloseBlogPopup} className="mt-2 bg-red-600 px-4 py-2 rounded-lg">Cancel</button>
+                        </div>
+                    </div>
+                )}
             </div>
-
-            {/* Comment Popup */}
-            {showCommentPopup && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-gray-800 p-6 rounded-lg">
-                        <h2 className="text-2xl font-bold">Add a Comment</h2>
-                        <form onSubmit={handleCommentSubmit} className="mt-2">
-                            <textarea
-                                value={comments}
-                                onChange={(e) => setComments(e.target.value)}
-                                className="w-full p-2 bg-gray-700 rounded"
-                                placeholder="Add a comment..."
-                                rows="3"
-                            ></textarea>
-                            <button type="submit" className="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Submit</button>
-                            <button type="button" onClick={() => setShowCommentPopup(false)} className="mt-2 bg-red-600 px-4 py-2 rounded-lg">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            )}
-        </div>
+        </Router>
     );
 };
 
-export default BlogDetail;
+export default App;
