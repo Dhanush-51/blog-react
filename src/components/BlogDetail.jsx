@@ -82,8 +82,8 @@ const BlogDetail = ({ blogs, updateBlog, deleteBlog, genreImages }) => {
                             className="mt-2 p-2 w-full bg-gray-200 rounded" 
                             rows="4"
                         />
-                        <button onClick={handleSaveEdit} className="mt-4 bg-blue-600 px-4 py-2 rounded-lg">Save</button>
-                        <button onClick={() => setIsEditing(false)} className="mt-4 bg-red-600 px-4 py-2 rounded-lg">Cancel</button>
+                        <button onClick={handleSaveEdit} className="mt-4 bg-blue-600 px-4 py-2 rounded-lg mr-5">Save</button>
+                        <button onClick={() => setIsEditing(false)} className="mt-4 bg-blue-600 px-4 py-2 rounded-lg">Cancel</button>
                     </div>
                 ) : (
                     <div>
@@ -96,7 +96,7 @@ const BlogDetail = ({ blogs, updateBlog, deleteBlog, genreImages }) => {
                             <div className="flex items-center">
                                 <button onClick={handleLike} className="flex items-center">
                                     <Heart className={`mr-2 ${isLiked ? 'text-red-500' : 'text-gray-500'}`} />
-                                    <span>{likeCount} Likes</span>
+                                    <span className='text-black'>{likeCount} Likes</span>
                                 </button>
                             </div>
                             <div className="flex items-center">
@@ -123,8 +123,8 @@ const BlogDetail = ({ blogs, updateBlog, deleteBlog, genreImages }) => {
                                         placeholder="Add a comment..."
                                         rows="3"
                                     ></textarea>
-                                    <button type="submit" className="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Submit</button>
-                                    <button type="button" onClick={() => setShowCommentPopup(false)} className="mt-2 bg-red-600 px-4 py-2 rounded-lg">Cancel</button>
+                                    <button type="submit" className="mt-2 bg-blue-600 px-4 py-2 rounded-lg mr-5">Submit</button>
+                                    <button type="button" onClick={() => setShowCommentPopup(false)} className="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Cancel</button>
                                 </form>
                             </div>
                         )}
