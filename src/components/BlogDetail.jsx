@@ -12,7 +12,7 @@ const BlogDetail = ({ blogs, updateBlog, deleteBlog, genreImages }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [viewCount, setViewCount] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedBlog, setEditedBlog] = useState({ ...blog }); // Initialize with a copy of the blog
+    const [editedBlog, setEditedBlog] = useState({ ...blog });
 
     useEffect(() => {
         if (blog) {
@@ -48,13 +48,13 @@ const BlogDetail = ({ blogs, updateBlog, deleteBlog, genreImages }) => {
     };
 
     const handleCommentSubmit = (e) => {
-        e.preventDefault(); // Prevent the default form submission
+        e.preventDefault();
         const newComment = { text: comments, date: new Date().toLocaleDateString() };
         const updatedComments = [...storedComments, newComment];
         setStoredComments(updatedComments);
-        localStorage.setItem(`comments_${blog.title}`, JSON.stringify(updatedComments)); // Save comments to local storage
-        setComments(''); // Clear the comment input
-        setShowCommentPopup(false); // Close the comment popup
+        localStorage.setItem(`comments_${blog.title}`, JSON.stringify(updatedComments));
+        setComments('');
+        setShowCommentPopup(false);
     };
 
     if (!blog) {
@@ -84,11 +84,11 @@ const BlogDetail = ({ blogs, updateBlog, deleteBlog, genreImages }) => {
                     </div>
                 ) : (
                     <div>
-                        <h2 className="text-3xl font-bold">{editedBlog.title}</h2> {/* Use editedBlog for immediate update */}
-                        <p className="text-gray-400 mt-2">By {editedBlog.author} | Published on {editedBlog.date}</p>
+                        <h2 className="text-3xl font-bold">{blog.title}</h2>
+                        <p className="text-gray-400 mt-2">By {blog.author} | Published on {blog.date}</p>
                         <p className="text-gray-400 mt-2">Views: {viewCount}</p>
-                        <img src={editedBlog.image || genreImages[editedBlog.genre]} className="mt-4 rounded-lg w-full h-96 object-cover" alt="Blog" />
-                        <p className="mt-4 text-gray-300">{editedBlog.content}</p> {/* Use editedBlog for immediate update */}
+                        <img src={blog.image || genreImages[blog.genre]} className="mt-4 rounded-lg w-full h-96 object-cover" alt="Blog" />
+                        <p className="mt-4 text-gray-300">{blog.content}</p>
                         <div className="mt-6 flex justify-between items-center">
                             <div className="flex items-center">
                                 <button onClick={handleLike} className="bg-blue-500 px-4 py-2 rounded-lg">Like</button>
