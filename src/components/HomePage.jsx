@@ -1,25 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const HomePage = ({ onOpenBlogPopup }) => {
-    // Default genres
-    const genres = [
-        'Art',
-        'Music',
-        'Fashion',
-        'Travel',
-        'Food',
-        'Technology',
-        'Health',
-        'Sports',
-        'Books',
-        'Movies',
-        'Gaming',
-        'Photography',
-        'Science',
-        'Lifestyle',
-        'Education'
-    ];
+const HomePage = ({ blogs, genreImages, onOpenBlogPopup }) => {
+    const genres = Object.keys(genreImages);
 
     return (
         <div className="flex-1 p-6">
@@ -27,9 +10,10 @@ const HomePage = ({ onOpenBlogPopup }) => {
             <div className="grid grid-cols-3 gap-4 mt-6">
                 {genres.length > 0 ? (
                     genres.map((genre, index) => (
-                        <Link to={`/genre/${genre.toLowerCase()}`} key={index}>
-                            <div className="bg-gray-800 p-4 rounded-lg text-center">
-                                <h3 className="text-xl font-bold">{genre}</h3>
+                        <Link to={`/genre/${genre}`} key={index}>
+                            <div className="bg-gray-800 rounded-lg text-center">
+                                <img src={genreImages[genre]} alt={genre} className="w-full h-48 object-cover rounded-t-lg" />
+                                <h3 className="text-xl font-bold p-4">{genre.charAt(0).toUpperCase() + genre.slice(1)}</h3>
                             </div>
                         </Link>
                     ))
